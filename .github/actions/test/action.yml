@@ -15,14 +15,14 @@ runs:
   steps: 
     - name: Print output
       run: echo "Testing on ${{ inputs.environment }} has started.."
-      shell: powershell
+      shell: bash
 
     - name: Install npm dependencies
       working-directory: ${{ inputs.working_dir }}
       run : npm install
-      shell: powershell
+      shell: bash
 
     - name: Execute REST API integration tests
       working-directory: ${{ inputs.working_dir }}
       run : npm run greetings greetings_${{ inputs.environment }}
-      shell: powershell
+      shell: bash

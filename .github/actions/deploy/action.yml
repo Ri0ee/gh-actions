@@ -19,16 +19,14 @@ runs:
   steps: 
     - name: Print output
       run: echo "Deployment to ${{ inputs.environment }} has started..."
-      shell: powershell
+      shell: bash
       
     - name: Remove old service
       working-directory: ${{ inputs.working_dir }}
-      run: |
-        pm2 delete greetings-app-${{ inputs.environment }}; 
-        exit 0
-      shell: powershell
+      run: pm2 delete greetings-app-${{ inputs.environment }} || true 
+      shell: bash
 
     - name: Start a new service
       working-directory: ${{ inputs.working_dir }}
-      run : pm2 start --name greetings-app-${{ inputs.environment }} app.py -- -- --port ${{ inputs.port }}
-      shell: powershell
+      run: pm2 start --name greetings-app-${{ inputs.environment }} app.py -- --port ${{ inputs.port }}
+      shell: bash
