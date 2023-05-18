@@ -1,0 +1,43 @@
+name: Python-greetings
+
+on:
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  install-pip-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/install-pip
+      
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: [install-pip-deps]
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.2
+        with:
+          repository: mtararujs/python-greetings
+          path: src
+      - uses: ./.github/actions/deploy
+        with:
+          port: 7001
+          environment: dev
+          working_dir: src
+
+  test-dev:
+    runs-on: ubuntu-latest
+    needs: [deploy-dev]
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.2
+        with:
+          repository: mtararujs/course-js-api-framework
+          path: js-api-tests
+      - uses: ./.github/actions/test
+        with:
+          environment: dev
+          working_dir: js-api-tests
