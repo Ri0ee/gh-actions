@@ -26,7 +26,11 @@ runs:
       run: pm2 delete greetings-app-${{ inputs.environment }} || true 
       shell: bash
 
+    - name: List dir
+      run: ls
+      shell: bash
+
     - name: Start a new service
       working-directory: ${{ inputs.working_dir }}
-      run: pm2 start --name greetings-app-${{ inputs.environment }} ./theapp/app.py -- --port ${{ inputs.port }}
+      run: pm2 start --name greetings-app-${{ inputs.environment }} app.py -- --port ${{ inputs.port }}
       shell: bash
