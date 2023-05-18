@@ -53,8 +53,8 @@ jobs:
           path: theapp
       - uses: ./.github/actions/deploy
         with:
-          port: 7001
-          environment: dev
+          port: 7002
+          environment: staging
           working_dir: theapp
 
   tests-on-staging:
@@ -82,8 +82,8 @@ jobs:
           path: theapp
       - uses: ./.github/actions/deploy
         with:
-          port: 7001
-          environment: dev
+          port: 7003
+          environment: preprod
           working_dir: theapp
 
   tests-on-preprod:
@@ -111,8 +111,8 @@ jobs:
           path: theapp
       - uses: ./.github/actions/deploy
         with:
-          port: 7001
-          environment: dev
+          port: 7004
+          environment: prod
           working_dir: theapp
 
   tests-on-prod:
