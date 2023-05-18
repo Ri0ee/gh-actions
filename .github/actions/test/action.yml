@@ -1,0 +1,28 @@
+name: Test
+description: Tests application in the specific environment
+
+inputs:
+  environment:
+    description: Testing environment, supports dev, staging, preprod, prod
+    required: false
+    default: dev
+  working_dir:
+    description: Working directory where to call the code
+    required: true
+
+runs:
+  using: "composite"
+  steps: 
+    - name: Print output
+      run: echo "Testing on ${{ inputs.environment }} has started.."
+      shell: powershell
+
+    - name: Install npm dependencies
+      working-directory: ${{ inputs.working_dir }}
+      run : npm install
+      shell: powershell
+
+    - name: Execute REST API integration tests
+      working-directory: ${{ inputs.working_dir }}
+      run : npm run greetings greetings_${{ inputs.environment }}
+      shell: powershell

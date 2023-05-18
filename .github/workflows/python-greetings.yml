@@ -8,16 +8,15 @@ on:
 
 jobs:
   install-pip-deps:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: ./.github/actions/install-pip
       
   deploy-dev:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [install-pip-deps]
     steps:
-      - uses: actions/checkout@v3.5.2
       - uses: actions/checkout@v3.5.2
         with:
           repository: mtararujs/python-greetings
@@ -29,7 +28,7 @@ jobs:
           working_dir: src
 
   test-dev:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [deploy-dev]
     steps:
       - uses: actions/checkout@v3.5.2

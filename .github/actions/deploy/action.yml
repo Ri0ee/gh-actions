@@ -1,0 +1,34 @@
+name: Deploy
+description: Deploys the application
+
+inputs:
+  port:
+    description: Specify the port
+    required: false
+    default: "7001"
+  environment:
+    description: Specify the environment
+    required: false
+    default: dev
+  working_dir:
+    description: Specify the working directory
+    required: true
+
+runs:
+  using: "composite"
+  steps: 
+    - name: Print output
+      run: echo "Deployment to ${{ inputs.environment }} has started..."
+      shell: powershell
+      
+    - name: Remove old service
+      working-directory: ${{ inputs.working_dir }}
+      run: |
+        pm2 delete greetings-app-${{ inputs.environment }}; 
+        exit 0
+      shell: powershell
+
+    - name: Start a new service
+      working-directory: ${{ inputs.working_dir }}
+      run : pm2 start --name greetings-app-${{ inputs.environment }} app.py -- -- --port ${{ inputs.port }}
+      shell: powershell
