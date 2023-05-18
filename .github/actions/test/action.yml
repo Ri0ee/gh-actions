@@ -14,7 +14,7 @@ runs:
   using: "composite"
   steps: 
     - name: Print output
-      run: echo "Testing on ${{ inputs.environment }} has started.."
+      run: echo Testing on ${{ inputs.environment }} has started..
       shell: bash
 
     - name: Install npm dependencies

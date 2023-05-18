@@ -5,7 +5,7 @@ runs:
   using: "composite"
   steps: 
     - name: Print output
-      run: echo "Installing all required pip dependencies..."
+      run: echo Installing all required pip dependencies...
       shell: bash
 
     - name: Checkout the repository

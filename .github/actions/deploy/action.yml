@@ -18,7 +18,7 @@ runs:
   using: "composite"
   steps: 
     - name: Print output
-      run: echo "Deployment to ${{ inputs.environment }} has started..."
+      run: echo Deployment to ${{ inputs.environment }} has started...
       shell: bash
       
     - name: Remove old service
