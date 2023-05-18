@@ -2,13 +2,12 @@ name: Test
 description: Tests application in the specific environment
 
 inputs:
+  test_set:
+    description: 'Specify test set to run'
+    default: 'greetings'
   environment:
-    description: Testing environment, supports dev, staging, preprod, prod
-    required: false
-    default: dev
-  working_dir:
-    description: Working directory where to call the code
-    required: true
+    description: 'Testing environment'
+    default: 'dev'
 
 runs:
   using: "composite"
@@ -18,11 +17,18 @@ runs:
       shell: bash
 
     - name: Install npm dependencies
-      working-directory: ${{ inputs.working_dir }}
+      working-directory: api-tests
       run : npm install
       shell: bash
 
     - name: Execute REST API integration tests
-      working-directory: ${{ inputs.working_dir }}
-      run : npm run greetings greetings_${{ inputs.environment }}
+      working-directory: api-tests
+      run : npm run ${{ inputs.test_set }} ${{ inputs.test_set }}_${{ inputs.environment }}
       shell: bash
+
+    - name: Upload report as artifact
+      working-directory: api-tests
+      uses: actions/upload-artifact@v3
+      with: 
+        name: test-report
+        path: mochawesome-report

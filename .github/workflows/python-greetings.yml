@@ -8,29 +8,16 @@ on:
 
 jobs:
   install-pip-deps:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: ./.github/actions/install-pip
 
-  # pm2-configuration:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3.5.2
-  #     - uses: actions/setup-node@v3
-  #     - run: npm install pm2@latest -g
-  #     - run: pm2 -V
-  #     - run: pm2 list
-
   deploy-dev:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [install-pip-deps]
     steps:
       - uses: actions/checkout@v3.5.2
-      - uses: actions/setup-node@v3
-      - run: npm install pm2@latest -g
-      - run: pm2 -V
-      - run: pm2 list
       - uses: actions/checkout@v3.5.2
         with:
           repository: mtararujs/python-greetings
@@ -42,15 +29,15 @@ jobs:
           working_dir: theapp
 
   test-dev:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [deploy-dev]
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/checkout@v3.5.2
         with:
           repository: mtararujs/course-js-api-framework
-          path: js-api-tests
+          path: api-tests
       - uses: ./.github/actions/test
         with:
+          test_set: greetings
           environment: dev
-          working_dir: js-api-tests
